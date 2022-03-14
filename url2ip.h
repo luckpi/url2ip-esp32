@@ -10,16 +10,16 @@
 // 解析host地址的间隔.单位:s
 #define PARSE_INTERVAL 180
 
-// CoreIPLoad 模块载入
+// Url2IPLoad 模块载入
 bool Url2IPLoad(char *name, int size);
 
-// CoreIPGet 读取核心网ip
+// Url2IPGetIP 读取核心网ip
 uint32_t Url2IPGetIP(void);
 
 // 配置核心网域名
 void Url2IPSetName(char* name, int size);
 
-// CoreIPIsOK 是否解析成功
+// Url2IPIsOK 是否解析成功
 bool Url2IPIsOK(void);
 
 #endif

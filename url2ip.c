@@ -24,7 +24,7 @@ static uint32_t parseInterval = PARSE_INTERVAL;
 
 static void parseThread(void* param);
 
-// CoreIPLoad 模块载入
+// Url2IPLoad 模块载入
 bool Url2IPLoad(char* name, int size) {
     mid = TZMallocRegister(0, TAG, MALLOC_TOTAL);
     Url2IPSetName(name, size);
@@ -61,12 +61,12 @@ void Url2IPSetName(char* name, int size) {
     memcpy(coreName, name, size);
 }
 
-// CoreIPGet 读取核心网ip
+// Url2IPGetIP 读取解析ip
 uint32_t Url2IPGetIP(void) {
     return coreIP;
 }
 
-// CoreIPIsOK 是否解析成功
+// Url2IPIsOK 是否解析成功
 bool Url2IPIsOK(void) {
     return isParseOK;
 }
