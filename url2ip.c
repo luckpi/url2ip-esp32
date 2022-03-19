@@ -7,7 +7,7 @@
 #include "lagan.h"
 #include <netdb.h>
 
-#define TAG "url2pi"
+#define TAG "url2ip"
 
 // tzmalloc字节数
 #define MALLOC_TOTAL 2048
