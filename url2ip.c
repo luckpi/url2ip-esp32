@@ -5,6 +5,7 @@
 #include "url2ip.h"
 #include "tzmalloc.h"
 #include "lagan.h"
+#include "wifi.h"
 #include <netdb.h>
 
 #define TAG "url2ip"
@@ -37,6 +38,11 @@ static void parseThread(void* param) {
 
     struct hostent* h;
     while (1) {
+        if (WifiIsConnect() == false) {
+            BrorDelay(1);
+            continue;
+        }
+
         if ((h = gethostbyname(coreName)) == NULL) {
             LD(TAG, "Failed to get host name %s", coreName);
             BrorDelay(1);
