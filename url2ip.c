@@ -26,9 +26,9 @@ static uint32_t parseInterval = PARSE_INTERVAL;
 static void parseThread(void* param);
 
 // Url2IPLoad 模块载入
-bool Url2IPLoad(char* name, int size) {
+bool Url2IPLoad(const char* name) {
     mid = TZMallocRegister(0, TAG, MALLOC_TOTAL);
-    Url2IPSetName(name, size);
+    Url2IPSetName(name);
     return BrorThreadCreate(parseThread, TAG, BROR_THREAD_PRIORITY_LOWEST,
                             THREAD_STACK_SIZE * 1024);
 }
@@ -59,12 +59,12 @@ static void parseThread(void* param) {
 }
 
 // 配置核心网域名
-void Url2IPSetName(char* name, int size) {
+void Url2IPSetName(const char* name) {
     if (coreName != NULL) {
         TZFree(coreName);
     }
-    coreName = TZMalloc(mid, size);
-    memcpy(coreName, name, size);
+    coreName = TZMalloc(mid, sizeof(name));
+    strcpy(coreName, name);
 }
 
 // Url2IPGetIP 读取解析ip

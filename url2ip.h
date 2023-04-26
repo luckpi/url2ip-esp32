@@ -11,13 +11,13 @@
 #define PARSE_INTERVAL 180
 
 // Url2IPLoad 模块载入
-bool Url2IPLoad(char *name, int size);
+bool Url2IPLoad(const char *name);
 
 // Url2IPGetIP 读取核心网ip
 uint32_t Url2IPGetIP(void);
 
 // 配置核心网域名
-void Url2IPSetName(char* name, int size);
+void Url2IPSetName(const char* name);
 
 // Url2IPIsOK 是否解析成功
 bool Url2IPIsOK(void);
