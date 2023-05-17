@@ -3,8 +3,8 @@
 // Authors: Gumy
 
 #include "url2ip.h"
-#include "tzmalloc.h"
 #include "lagan.h"
+#include "tzmalloc.h"
 #include "wifi.h"
 #include <netdb.h>
 
@@ -20,25 +20,29 @@ static int mid = -1;
 
 static uint32_t coreIP = 0;
 static bool isParseOK = false;
-static char* coreName = NULL;
+static char *coreName = NULL;
 static uint32_t parseInterval = PARSE_INTERVAL;
 
-static void parseThread(void* param);
+static void parseThread(void *param);
 
 // Url2IPLoad 模块载入
-bool Url2IPLoad(const char* name) {
+bool Url2IPLoad(const char *name) {
     mid = TZMallocRegister(0, TAG, MALLOC_TOTAL);
+    if (mid == -1) {
+        LE(TAG, "load failed!malloc failed");
+        return false;
+    }
     Url2IPSetName(name);
     return BrorThreadCreate(parseThread, TAG, BROR_THREAD_PRIORITY_LOWEST,
                             THREAD_STACK_SIZE * 1024);
 }
 
-static void parseThread(void* param) {
+static void parseThread(void *param) {
     BrorDelayMS(1);
 
-    struct hostent* h;
+    struct hostent *h;
     while (1) {
-        if (WifiIsConnect() == false) {
+        if (WifiIsConnect() == false || coreName == NULL) {
             BrorDelay(1);
             continue;
         }
@@ -59,11 +63,12 @@ static void parseThread(void* param) {
 }
 
 // 配置核心网域名
-void Url2IPSetName(const char* name) {
-    if (coreName != NULL) {
-        TZFree(coreName);
+void Url2IPSetName(const char *name) {
+    coreName = TZMalloc(mid, strlen(name) + 1);
+    if (coreName == NULL) {
+        LE(TAG, "TZMalloc failed");
+        return;
     }
-    coreName = TZMalloc(mid, sizeof(name));
     strcpy(coreName, name);
 }
 
